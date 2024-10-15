@@ -1,5 +1,8 @@
 ﻿namespace FlowCode;
 
+/// <summary>
+/// Represents an exception that is thrown when an operation result is not successful.
+/// </summary>
 public class OperationResultException : Exception
 {
     public OperationResultException()

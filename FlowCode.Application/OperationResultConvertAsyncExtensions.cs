@@ -2,6 +2,15 @@
 
 public static class OperationResultConvertAsyncExtensions
 {
+    /// <summary>
+    /// Converts an <see cref="OperationResult"/> to a <see cref="ValueTask{Result}"/> using the provided success and error functions.
+    /// </summary>
+    /// <typeparam name="Result"></typeparam>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="operationResult"></param>
+    /// <param name="success"></param>
+    /// <param name="error"></param>
+    /// <returns></returns>
     public static ValueTask<Result> ConvertAsync<Result, T>(this OperationResult<T> operationResult, Func<T, Result> success, Func<Exception, Result> error)
     {
         if (operationResult.IsSuccess)

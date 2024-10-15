@@ -2,6 +2,15 @@
 
 public static class OperationResultConvertExtensions
 {
+    /// <summary>
+    /// Converts an <see cref="OperationResult{T}"/> to a <see cref="Result"/> using the provided functions.
+    /// </summary>
+    /// <typeparam name="Result"></typeparam>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="operationResult"></param>
+    /// <param name="success"></param>
+    /// <param name="error"></param>
+    /// <returns></returns>
     public static Result Convert<Result, T>(this OperationResult<T> operationResult, Func<T, Result> success, Func<Exception, Result> error)
     {
         if (operationResult.IsSuccess)
