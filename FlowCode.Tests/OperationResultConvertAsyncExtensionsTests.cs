@@ -62,4 +62,49 @@ public class OperationResultConvertAsyncExtensions
         // Assert
         Assert.Equal("Error: Exception is null", result);
     }
+
+    [Fact]
+    public async Task ConvertAsync_WithSuccessResult_ShouldReturnSuccessValueTask()
+    {
+        // Arrange
+        var operationResult = new OperationResult();
+        Func<string> success = () => "Success";
+        Func<Exception, string> error = ex => ex.Message;
+
+        // Act
+        var result = await operationResult.ConvertAsync(success, error);
+
+        // Assert
+        Assert.Equal("Success", result);
+    }
+
+    [Fact]
+    public async Task ConvertAsync_WithFailedResult_ShouldReturnErrorValueTask()
+    {
+        // Arrange
+        var operationResult = new OperationResult(new Exception("Test Exception"));
+        Func<string> success = () => "Success";
+        Func<Exception, string> error = ex => ex.Message;
+
+        // Act
+        var result = await operationResult.ConvertAsync(success, error);
+
+        // Assert
+        Assert.Equal("Test Exception", result);
+    }
+
+    [Fact]
+    public async Task ConvertAsync_WithNullException_ShouldReturnSuccessValueTask()
+    {
+        // Arrange
+        var operationResult = new OperationResult();
+        Func<string> success = () => "Success";
+        Func<Exception, string> error = ex => ex.Message;
+
+        // Act
+        var result = await operationResult.ConvertAsync(success, error);
+
+        // Assert
+        Assert.Equal("Success", result);
+    }
 }
