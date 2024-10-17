@@ -318,4 +318,17 @@ public class OperationResultTests
         // Assert
         Assert.False(isEqual);
     }
+
+    [Fact]
+    public void GetHashCode_Success()
+    {
+        // Arrange
+        OperationResult<int> result = OperationResult.Success(42);
+        OperationResult<int> result1 = OperationResult.Success(42);
+        // Act
+        int hashCode = result.GetHashCode();
+        int hashCode1 = result1.GetHashCode();
+        // Assert
+        Assert.Equal(hashCode1, hashCode);
+    }
 }
