@@ -82,6 +82,15 @@ public class OperationResult<T> : OperationResult
         return right;
     }
 
+    public static OperationResult<T> operator |(OperationResult<T> left, Func<T> right)
+    {
+        if (left.IsSuccess)
+        {
+            return left;
+        }
+        return right();
+    }
+
     public static bool operator !(OperationResult<T> operation)
     {
         return !operation.IsSuccess;
@@ -181,6 +190,15 @@ public class OperationResult
     public static bool operator !(OperationResult operation)
     {
         return !operation.IsSuccess;
+    }
+
+    public static OperationResult operator |(OperationResult left, Func<T> right)
+    {
+        if (left.IsSuccess)
+        {
+            return left;
+        }
+        return right();
     }
 
     /// <summary>
