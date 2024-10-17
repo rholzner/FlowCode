@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowCode.Domain", "FlowCode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowCode.Tests", "FlowCode.Tests\FlowCode.Tests.csproj", "{E6DC070F-B5D3-4871-90A6-C3402C8E364D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowCode.Application.NetCore", "FlowCode.Application.NetCore\FlowCode.Application.NetCore.csproj", "{6731790C-97E7-4D69-BC2E-543D59A2CB35}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{E6DC070F-B5D3-4871-90A6-C3402C8E364D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6DC070F-B5D3-4871-90A6-C3402C8E364D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6DC070F-B5D3-4871-90A6-C3402C8E364D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6731790C-97E7-4D69-BC2E-543D59A2CB35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6731790C-97E7-4D69-BC2E-543D59A2CB35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6731790C-97E7-4D69-BC2E-543D59A2CB35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6731790C-97E7-4D69-BC2E-543D59A2CB35}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
