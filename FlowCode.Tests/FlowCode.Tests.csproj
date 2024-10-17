@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FlowCode.Application\FlowCode.Application.csproj" />
+    <ProjectReference Include="..\FlowCode.Application.NetCore\FlowCode.Application.NetCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
