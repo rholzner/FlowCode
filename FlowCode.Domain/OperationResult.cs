@@ -97,6 +97,11 @@ public class OperationResult<T> : OperationResult
         return base.Equals(obj);
     }
 
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(IsSuccess, Exception, Data);
+    }
+
 
     /// <summary>
     /// Creates a new successful operation result.
@@ -187,5 +192,10 @@ public class OperationResult
         }
 
         return base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(IsSuccess, Exception);
     }
 }
