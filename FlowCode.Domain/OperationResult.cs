@@ -67,6 +67,37 @@ public class OperationResult<T> : OperationResult
         return new OperationResult<T>(data);
     }
 
+    public override bool Equals(object? obj)
+    {
+        if (obj is null)
+        {
+            return false;
+        }
+
+        if (this.IsSuccess && Data is not null && obj is T incommingData)
+        {
+            return Data.Equals(incommingData);
+        }
+
+        if (obj is OperationResult<T> operation)
+        {
+            if (this.IsSuccess)
+            {
+                if (Data is not null && Data.Equals(operation.Data))
+                {
+                    return true;
+                }
+
+                return false;
+
+            }
+            return operation.Exception == Exception;
+        }
+
+        return base.Equals(obj);
+    }
+
+
     /// <summary>
     /// Creates a new successful operation result.
     /// </summary>
@@ -127,6 +158,7 @@ public class OperationResult
     /// </summary>
     /// <returns></returns>
     public static OperationResult Success() => new OperationResult();
+    public static OperationResult<T> Success<T>(T data) => new OperationResult<T>(data);
 
     /// <summary>
     /// Creates a new failed operation result.
@@ -134,5 +166,26 @@ public class OperationResult
     /// <param name="ex"></param>
     /// <returns></returns>
     public static OperationResult Failure(Exception ex) => new OperationResult(ex);
+    public static OperationResult<T> Failure<T>(Exception ex) => new OperationResult<T>(ex);
 
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null)
+        {
+            return false;
+        }
+
+        if (obj is OperationResult operation)
+        {
+            if (this.IsSuccess)
+            {
+                return operation.IsSuccess;
+            }
+
+            return operation.Exception == Exception;
+        }
+
+        return base.Equals(obj);
+    }
 }

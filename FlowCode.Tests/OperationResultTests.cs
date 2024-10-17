@@ -245,4 +245,77 @@ public class OperationResultTests
         Assert.Equal(exception, operationResult.Exception);
         Assert.Equal(default, operationResult.Data);
     }
+
+
+    [Fact]
+    public void Equals_NullObject_ReturnsFalse()
+    {
+        // Arrange
+        OperationResult<int> result = OperationResult.Success(42);
+
+        // Act
+        bool isEqual = result.Equals(null);
+
+        // Assert
+        Assert.False(isEqual);
+    }
+
+    [Fact]
+    public void Equals_OperationResult_Success_ReturnsTrue()
+    {
+        // Arrange
+        OperationResult<int> result1 = OperationResult.Success(42);
+        OperationResult<int> result2 = OperationResult.Success(42);
+
+        // Act
+        bool isEqual = result1.Equals(result2);
+
+        // Assert
+        Assert.True(isEqual);
+    }
+
+    [Fact]
+    public void Equals_OperationResult_Failure_ReturnsTrue()
+    {
+        // Arrange
+        Exception ex = new Exception("Something went wrong");
+        OperationResult<int> result1 = OperationResult.Failure<int>(ex);
+        OperationResult<int> result2 = OperationResult.Failure<int>(ex);
+
+        // Act
+        bool isEqual = result1.Equals(result2);
+
+        // Assert
+        Assert.True(isEqual);
+    }
+
+    [Fact]
+    public void Equals_OperationResult_DifferentData_ReturnsFalse()
+    {
+        // Arrange
+        OperationResult<int> result1 = OperationResult.Success(42);
+        OperationResult<int> result2 = OperationResult.Success(24);
+
+        // Act
+        bool isEqual = result1.Equals(result2);
+
+        // Assert
+        Assert.False(isEqual);
+    }
+
+    [Fact]
+    public void Equals_OperationResult_DifferentException_ReturnsFalse()
+    {
+        // Arrange
+        Exception ex1 = new Exception("Error 1");
+        Exception ex2 = new Exception("Error 2");
+        OperationResult<int> result1 = OperationResult.Failure<int>(ex1);
+        OperationResult<int> result2 = OperationResult.Failure<int>(ex2);
+
+        // Act
+        bool isEqual = result1.Equals(result2);
+
+        // Assert
+        Assert.False(isEqual);
+    }
 }

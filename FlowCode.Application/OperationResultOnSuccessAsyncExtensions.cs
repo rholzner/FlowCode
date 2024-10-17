@@ -1,6 +1,6 @@
 ﻿namespace FlowCode;
 
-public static class OperationResultOnSuccessExtensions
+public static class OperationResultOnSuccessAsyncExtensions
 {
     /// <summary>
     /// Executes the provided action if the operation result is successful.
@@ -9,11 +9,11 @@ public static class OperationResultOnSuccessExtensions
     /// <param name="operationResult"></param>
     /// <param name="action"></param>
     /// <returns></returns>
-    public static OperationResult<T> OnSuccess<T>(this OperationResult<T> operationResult, Action<T> action)
+    public static async ValueTask<OperationResult<T>> OnSuccessAsync<T>(this OperationResult<T> operationResult, Func<T, ValueTask> action)
     {
         if (operationResult.IsSuccess)
         {
-            action(operationResult.Data);
+            await action(operationResult.Data);
         }
         return operationResult;
     }
@@ -24,15 +24,14 @@ public static class OperationResultOnSuccessExtensions
     /// <param name="operationResult"></param>
     /// <param name="action"></param>
     /// <returns></returns>
-    public static OperationResult OnSuccess(this OperationResult operationResult, Action action)
+    public static async ValueTask<OperationResult> OnSuccessAsync(this OperationResult operationResult, Func<ValueTask> action)
     {
         if (operationResult.IsSuccess)
         {
-            action();
+            await action();
         }
         return operationResult;
     }
-
 
     /// <summary>
     /// Executes the provided action if the operation result is successful.
@@ -41,18 +40,16 @@ public static class OperationResultOnSuccessExtensions
     /// <param name="operationResult"></param>
     /// <param name="action"></param>
     /// <returns></returns>
-    public static OperationResult<Result> OnSuccess<Result>(this OperationResult operationResult, Func<Result> action)
+    public static async ValueTask<OperationResult<Result>> OnSuccessAsync<Result>(this OperationResult operationResult, Func<ValueTask<Result>> action)
     {
         if (operationResult.IsSuccess)
         {
-            return action();
+            return await action();
         }
-
         if (operationResult.Exception is null)
         {
             return new OperationResultException("Exception is null");
         }
-
         return operationResult.Exception;
     }
 
@@ -64,18 +61,16 @@ public static class OperationResultOnSuccessExtensions
     /// <param name="operationResult"></param>
     /// <param name="action"></param>
     /// <returns></returns>
-    public static OperationResult<Result> OnSuccess<T,Result>(this OperationResult<T> operationResult, Func<T,Result> action)
+    public static async ValueTask<OperationResult<Result>> OnSuccessAsync<T, Result>(this OperationResult<T> operationResult, Func<T, ValueTask<Result>> action)
     {
         if (operationResult.IsSuccess)
         {
-            return action(operationResult.Data);
+            return await action(operationResult.Data);
         }
-
         if (operationResult.Exception is null)
         {
             return new OperationResultException("Exception is null");
         }
-
         return operationResult.Exception;
     }
 }

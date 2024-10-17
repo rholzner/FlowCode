@@ -1,3 +1,5 @@
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 namespace FlowCode.Tests;
 
 public class OperationResultOnSuccessExtensionsTests
@@ -107,5 +109,71 @@ public class OperationResultOnSuccessExtensionsTests
 
         // Assert
         Assert.False(actionCalled);
+    }
+
+    [Fact]
+    public void OnSuccess_WithSuccessfulOperationResult_ShouldExecuteAction()
+    {
+        // Arrange
+        var operationResult = OperationResult.Success();
+        bool actionExecuted = false;
+
+        // Act
+        operationResult.OnSuccess(() => actionExecuted = true);
+
+        // Assert
+        Assert.True(actionExecuted);
+    }
+
+    [Fact]
+    public void OnSuccess_WithFailedOperationResult_ShouldNotExecuteAction()
+    {
+        // Arrange
+        var operationResult = OperationResult.Failure(new OperationResultException("Test exception"));
+        bool actionExecuted = false;
+
+        // Act
+        operationResult.OnSuccess(() => actionExecuted = true);
+
+        // Assert
+        Assert.False(actionExecuted);
+    }
+
+    [Fact]
+    public void OnSuccess_WithSuccessfulOperationResultAndData_ShouldExecuteActionWithData()
+    {
+        // Arrange
+        var data = "Test data";
+        var operationResult = OperationResult.Success<string>(data);
+        string resultData = null;
+
+        // Act
+        operationResult.OnSuccess(() =>
+        {
+            resultData = data;
+            return data;
+        });
+
+        // Assert
+        Assert.Equal(data, resultData);
+    }
+
+    [Fact]
+    public void OnSuccess_WithFailedOperationResultAndData_ShouldNotExecuteAction()
+    {
+        // Arrange
+        var data = "Test data";
+        var operationResult = OperationResult.Failure(new OperationResultException("Test exception"));
+        string resultData = null;
+
+        // Act
+        operationResult.OnSuccess(() =>
+        {
+            resultData = data;
+            return data;
+        });
+
+        // Assert
+        Assert.Null(resultData);
     }
 }
