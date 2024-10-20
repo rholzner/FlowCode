@@ -192,7 +192,7 @@ public class OperationResult
         return !operation.IsSuccess;
     }
 
-    public static OperationResult operator |(OperationResult left, Func<T> right)
+    public static OperationResult operator |(OperationResult left, Func<OperationResult> right)
     {
         if (left.IsSuccess)
         {
