@@ -13,7 +13,7 @@ public class OperationResultOnSuccessAsyncExtensionsTests
         await operationResult.OnSuccessAsync(() =>
         {
             actionCalled = true;
-            return ValueTask.CompletedTask;
+            return ValueTask.FromResult(OperationResult.Success());
         });
 
         // Assert
@@ -31,7 +31,7 @@ public class OperationResultOnSuccessAsyncExtensionsTests
         await operationResult.OnSuccessAsync(() =>
         {
             actionCalled = true;
-            return ValueTask.CompletedTask;
+            return ValueTask.FromResult(OperationResult.Success());
         });
 
         // Assert
@@ -50,7 +50,8 @@ public class OperationResultOnSuccessAsyncExtensionsTests
         await operationResult.OnSuccessAsync(d =>
         {
             resultData = d;
-            return ValueTask.CompletedTask;
+            return ValueTask.FromResult(OperationResult.Success());
+
         });
 
         // Assert
@@ -68,7 +69,7 @@ public class OperationResultOnSuccessAsyncExtensionsTests
         await operationResult.OnSuccessAsync(d =>
         {
             actionCalled = true;
-            return ValueTask.CompletedTask;
+            return ValueTask.FromResult(OperationResult.Success());
         });
 
         // Assert
@@ -109,7 +110,7 @@ public class OperationResultOnSuccessAsyncExtensionsTests
         });
 
         // Assert
-        Assert.Equal(result.Exception,exception);
+        Assert.Equal(result.Exception, exception);
     }
 
     [Fact]
@@ -121,10 +122,10 @@ public class OperationResultOnSuccessAsyncExtensionsTests
         string resultData = null;
 
         // Act
-        var result = await operationResult.OnSuccessAsync(d =>
+        var result = await operationResult.OnSuccessAsync<string,int>(async s =>
         {
-            resultData = d;
-            return ValueTask.FromResult(42);
+            resultData = s;
+            return 42;
         });
 
         // Assert
@@ -143,7 +144,7 @@ public class OperationResultOnSuccessAsyncExtensionsTests
         // Act
         var result = await operationResult.OnSuccessAsync(d =>
         {
-            return ValueTask.FromResult(42);
+            return ValueTask.FromResult(OperationResult.Success());
         });
 
         // Assert
