@@ -32,6 +32,24 @@ public static class OperationResultSwitchExtensions
             error(operationResult.Exception);
         }
     }
+
+    public static ValueTask SwitchAsync<T>(this OperationResult<T> operationResult, Func<T, ValueTask> success, Func<Exception, ValueTask> error)
+    {
+        if (operationResult.IsSuccess)
+        {
+            if (operationResult.Data is null)
+            {
+                return error(new OperationResultException("Data is null"));
+            }
+            return success(operationResult.Data);
+        }
+        if (operationResult.Exception is null)
+        {
+            return error(new OperationResultException("Exception is null"));
+        }
+        return error(operationResult.Exception);
+    }
+
     /// <summary>
     /// Executes the provided action if the operation result is successful.
     /// </summary>
@@ -53,5 +71,18 @@ public static class OperationResultSwitchExtensions
             }
             error(operationResult.Exception);
         }
+    }
+
+    public static ValueTask SwitchAsync(this OperationResult operationResult, Func<ValueTask> success, Func<Exception, ValueTask> error)
+    {
+        if (operationResult.IsSuccess)
+        {
+            return success();
+        }
+        if (operationResult.Exception is null)
+        {
+            return error(new OperationResultException("Exception is null"));
+        }
+        return error(operationResult.Exception);
     }
 }

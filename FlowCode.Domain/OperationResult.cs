@@ -41,7 +41,13 @@ public class OperationResult<T> : OperationResult
     /// <summary>
     /// Gets a value indicating whether the operation was successful.
     /// </summary>
-    public override bool IsSuccess => Exception is null && (Data is not null && _dataHasBeenSet);
+    public override bool IsSuccess
+    {
+        get
+        {
+            return Exception is null && (Data is not null && _dataHasBeenSet);
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether the data has been set.
@@ -65,6 +71,29 @@ public class OperationResult<T> : OperationResult
     public static implicit operator OperationResult<T>(T data)
     {
         return new OperationResult<T>(data);
+    }
+
+    public static OperationResult<T> operator |(OperationResult<T> left, OperationResult<T> right)
+    {
+        if (left.IsSuccess)
+        {
+            return left;
+        }
+        return right;
+    }
+
+    public static OperationResult<T> operator |(OperationResult<T> left, Func<T> right)
+    {
+        if (left.IsSuccess)
+        {
+            return left;
+        }
+        return right();
+    }
+
+    public static bool operator !(OperationResult<T> operation)
+    {
+        return !operation.IsSuccess;
     }
 
     public override bool Equals(object? obj)
@@ -157,6 +186,20 @@ public class OperationResult
     /// </summary>
     /// <param name="ex"></param>
     public static implicit operator OperationResult(Exception ex) => new OperationResult(ex);
+
+    public static bool operator !(OperationResult operation)
+    {
+        return !operation.IsSuccess;
+    }
+
+    public static OperationResult operator |(OperationResult left, Func<OperationResult> right)
+    {
+        if (left.IsSuccess)
+        {
+            return left;
+        }
+        return right();
+    }
 
     /// <summary>
     /// Creates a new successful operation result.

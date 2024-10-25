@@ -331,6 +331,35 @@ public class OperationResultTests
         // Assert
         Assert.Equal(hashCode1, hashCode);
     }
+
+    [Fact]
+    public void OperatorQuestionMark_WhenLeftIsSuccess_ReturnsLeft()
+    {
+        // Arrange
+        var data = "Test data";
+        var left = OperationResult.Success(data);
+        Func<string> right = () => throw new InvalidOperationException();
+
+        // Act
+        var result = left | right;
+
+        // Assert
+        Assert.Equal(left, result);
+    }
+
+    [Fact]
+    public void OperatorQuestionMark_WhenLeftIsFailure_ReturnsRight()
+    {
+        // Arrange
+        var left = OperationResult.Failure<string>(new InvalidOperationException());
+        Func<string> right = () => "Fallback data";
+
+        // Act
+        var result = left | right;
+
+        // Assert
+        Assert.Equal("Fallback data", result.Data);
+    }
 }
 
 

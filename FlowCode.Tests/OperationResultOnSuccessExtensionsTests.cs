@@ -17,6 +17,7 @@ public class OperationResultOnSuccessExtensionsTests
         {
             actionCalled = true;
             Assert.Equal(data, d);
+            return OperationResult.Success();
         });
 
         // Assert
@@ -36,6 +37,7 @@ public class OperationResultOnSuccessExtensionsTests
         {
             actionCalled = true;
             Assert.Equal(data, d);
+            return OperationResult.Success();
         });
 
         // Assert
@@ -54,6 +56,7 @@ public class OperationResultOnSuccessExtensionsTests
         operationResult.OnSuccess(() =>
         {
             actionCalled = true;
+            return OperationResult.Success();
         });
 
         // Assert
@@ -71,6 +74,7 @@ public class OperationResultOnSuccessExtensionsTests
         operationResult.OnSuccess(() =>
         {
             actionCalled = true;
+            return OperationResult.Success();
         });
 
         // Assert
@@ -88,6 +92,7 @@ public class OperationResultOnSuccessExtensionsTests
         operationResult.OnSuccess(() =>
         {
             actionCalled = true;
+            return OperationResult.Success();
         });
 
         // Assert
@@ -105,6 +110,7 @@ public class OperationResultOnSuccessExtensionsTests
         operationResult.OnSuccess(() =>
         {
             actionCalled = true;
+            return OperationResult.Success();
         });
 
         // Assert

@@ -1,4 +1,3 @@
-
 namespace FlowCode.Tests;
 
 public class OperationResultSwitchExtensionsTests
@@ -8,7 +7,9 @@ public class OperationResultSwitchExtensionsTests
     {
         // Arrange
         var operationResult = new OperationResult<int>(42);
+
         bool successActionCalled = false;
+        bool errorActionCalled = false;
 
         // Act
         operationResult.Switch(
@@ -17,52 +18,88 @@ public class OperationResultSwitchExtensionsTests
                 successActionCalled = true;
                 Assert.Equal(42, data);
             },
-            error: ex => Assert.True(false, "Error action should not be called.")
+            error: ex => errorActionCalled = true
         );
 
         // Assert
-        Assert.True(successActionCalled, "Success action should be called.");
+        Assert.True(successActionCalled);
+        Assert.False(errorActionCalled);
     }
 
     [Fact]
     public void Switch_WithFailedOperationResult_CallsErrorAction()
     {
         // Arrange
-        var operationResult = new OperationResult<int>(new Exception("Test exception"));
+        var operationResult = new OperationResult<int>(new Exception("Test Exception"));
+
+        bool successActionCalled = false;
         bool errorActionCalled = false;
 
         // Act
         operationResult.Switch(
-            success: data => Assert.True(false, "Success action should not be called."),
+            success: data => successActionCalled = true,
             error: ex =>
             {
                 errorActionCalled = true;
-                Assert.Equal("Test exception", ex.Message);
+                Assert.Equal("Test Exception", ex.Message);
             }
         );
 
         // Assert
-        Assert.True(errorActionCalled, "Error action should be called.");
+        Assert.False(successActionCalled);
+        Assert.True(errorActionCalled);
     }
 
     [Fact]
-    public void Switch_WithNullDataInSuccessfulOperationResult_CallsErrorAction()
+    public async Task SwitchAsync_WithSuccessfulOperationResult_CallsSuccessFunc()
     {
         // Arrange
-        var operationResult = new OperationResult<string>();
-        bool errorActionCalled = false;
+        var operationResult = new OperationResult<string>("Hello, World!");
+
+        bool successFuncCalled = false;
+        bool errorFuncCalled = false;
 
         // Act
-        operationResult.Switch(
-            success: data => Assert.True(false, "Success action should not be called."),
+        await operationResult.SwitchAsync(
+            success: data =>
+            {
+                successFuncCalled = true;
+                Assert.Equal("Hello, World!", data);
+                return ValueTask.CompletedTask;
+            },
+            error: async ex =>
+            {
+                errorFuncCalled = true;
+            });
+
+        // Assert
+        Assert.True(successFuncCalled);
+        Assert.False(errorFuncCalled);
+    }
+
+    [Fact]
+    public async Task SwitchAsync_WithFailedOperationResult_CallsErrorFunc()
+    {
+        // Arrange
+        var operationResult = new OperationResult<string>(new Exception("Test Exception"));
+
+        bool successFuncCalled = false;
+        bool errorFuncCalled = false;
+
+        // Act
+        await operationResult.SwitchAsync(
+            success: async data => successFuncCalled = true,
             error: ex =>
             {
-                errorActionCalled = true;
+                errorFuncCalled = true;
+                Assert.Equal("Test Exception", ex.Message);
+                return ValueTask.CompletedTask;
             }
         );
 
         // Assert
-        Assert.True(errorActionCalled, "Error action should be called.");
+        Assert.False(successFuncCalled);
+        Assert.True(errorFuncCalled);
     }
 
     [Fact]
@@ -70,56 +107,91 @@ public class OperationResultSwitchExtensionsTests
     {
         // Arrange
         var operationResult = new OperationResult();
+
         bool successActionCalled = false;
+        bool errorActionCalled = false;
 
         // Act
         operationResult.Switch(
             success: () => successActionCalled = true,
-            error: ex => Assert.True(false, "Error action should not be called.")
+            error: ex => errorActionCalled = true
         );
 
         // Assert
-        Assert.True(successActionCalled, "Success action should be called.");
+        Assert.True(successActionCalled);
+        Assert.False(errorActionCalled);
     }
 
     [Fact]
-    public void Switch_WithFailedOperationResult_CallsErrorAction_WithoutData()
+    public void Switch_WithFailedOperationResult_CallsErrorAction_WithoutException()
     {
         // Arrange
-        var operationResult = new OperationResult(new Exception("Test exception"));
+        var operationResult = new OperationResult(new Exception("Test Exception"));
+
+        bool successActionCalled = false;
         bool errorActionCalled = false;
 
         // Act
         operationResult.Switch(
-            success: () => Assert.True(false, "Success action should not be called."),
+            success: () => successActionCalled = true,
             error: ex =>
             {
                 errorActionCalled = true;
-                Assert.True(true, "Error action should be called.");
+                Assert.Equal("Test Exception", ex.Message);
             }
         );
 
         // Assert
-        Assert.True(errorActionCalled, "Error action should be called.");
+        Assert.False(successActionCalled);
+        Assert.True(errorActionCalled);
     }
 
     [Fact]
-    public void Switch_WithNullExceptionInFailedOperationResult_CallsErrorAction()
+    public async Task SwitchAsync_WithSuccessfulOperationResult_CallsSuccessFunc_WithoutData()
     {
         // Arrange
-        var operationResult = new OperationResult(new Exception());
-        bool errorActionCalled = false;
+        var operationResult = new OperationResult();
+
+        bool successFuncCalled = false;
+        bool errorFuncCalled = false;
 
         // Act
-        operationResult.Switch(
-            success: () => Assert.True(false, "Success action should not be called."),
+        await operationResult.SwitchAsync(
+            success: () =>
+            {
+                successFuncCalled = true;
+                return ValueTask.CompletedTask;
+            },
+            error: async ex => errorFuncCalled = true
+        );
+
+        // Assert
+        Assert.True(successFuncCalled);
+        Assert.False(errorFuncCalled);
+    }
+
+    [Fact]
+    public async Task SwitchAsync_WithFailedOperationResult_CallsErrorFunc_WithoutException()
+    {
+        // Arrange
+        var operationResult = new OperationResult(new Exception("Test Exception"));
+
+        bool successFuncCalled = false;
+        bool errorFuncCalled = false;
+
+        // Act
+        await operationResult.SwitchAsync(
+            success: async () => successFuncCalled = true,
             error: ex =>
             {
-                errorActionCalled = true;
+                errorFuncCalled = true;
+                Assert.Equal("Test Exception", ex.Message);
+                return ValueTask.CompletedTask;
             }
         );
 
         // Assert
-        Assert.True(errorActionCalled, "Error action should be called.");
+        Assert.False(successFuncCalled);
+        Assert.True(errorFuncCalled);
     }
 }
