@@ -332,3 +332,5 @@ public class OperationResultTests
         Assert.Equal(hashCode1, hashCode);
     }
 }
+
+
