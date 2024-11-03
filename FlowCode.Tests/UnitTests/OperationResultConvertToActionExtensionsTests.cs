@@ -1,7 +1,7 @@
 using FlowCode.Application.NetCore;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlowCode.Tests;
+namespace FlowCode.Tests.UnitTests;
 
 public class OperationResultConvertToActionExtensionsTests
 {

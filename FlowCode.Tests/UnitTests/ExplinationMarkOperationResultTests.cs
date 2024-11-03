@@ -1,5 +1,4 @@
-
-namespace FlowCode.Tests;
+namespace FlowCode.Tests.UnitTests;
 public class ExplinationMarkOperationResultTests
 {
     [Fact]

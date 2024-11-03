@@ -1,5 +1,4 @@
-
-namespace FlowCode.Tests;
+namespace FlowCode.Tests.UnitTests;
 
 public class PipeOperatorTests
 {
@@ -7,8 +6,8 @@ public class PipeOperatorTests
     public void Operator_Or_ReturnsLeftResult_WhenLeftIsSuccess()
     {
         // Arrange
-        var leftResult = OperationResult.Success<int>(42);
-        var rightResult = OperationResult.Failure<int>(new System.Exception("Error"));
+        var leftResult = OperationResult.Success(42);
+        var rightResult = OperationResult.Failure<int>(new Exception("Error"));
 
         // Act
         var result = leftResult | rightResult;
@@ -21,8 +20,8 @@ public class PipeOperatorTests
     public void Operator_Or_ReturnsRightResult_WhenLeftIsFailure()
     {
         // Arrange
-        var leftResult = OperationResult.Failure<int>(new System.Exception("Error"));
-        var rightResult = OperationResult.Success<int>(42);
+        var leftResult = OperationResult.Failure<int>(new Exception("Error"));
+        var rightResult = OperationResult.Success(42);
 
         // Act
         var result = leftResult | rightResult;

@@ -1,4 +1,5 @@
-﻿namespace FlowCode;
+﻿
+namespace FlowCode;
 
 /// <summary>
 /// Represents the result of an operation that returns a value.

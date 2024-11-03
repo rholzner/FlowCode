@@ -1,6 +1,6 @@
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace FlowCode.Tests;
+namespace FlowCode.Tests.UnitTests;
 
 public class OperationResultOnSuccessExtensionsTests
 {
@@ -150,7 +150,7 @@ public class OperationResultOnSuccessExtensionsTests
     {
         // Arrange
         var data = "Test data";
-        var operationResult = OperationResult.Success<string>(data);
+        var operationResult = OperationResult.Success(data);
         string resultData = null;
 
         // Act

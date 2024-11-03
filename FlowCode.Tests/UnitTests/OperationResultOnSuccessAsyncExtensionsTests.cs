@@ -1,4 +1,4 @@
-namespace FlowCode.Tests;
+namespace FlowCode.Tests.UnitTests;
 
 public class OperationResultOnSuccessAsyncExtensionsTests
 {
@@ -122,7 +122,7 @@ public class OperationResultOnSuccessAsyncExtensionsTests
         string resultData = null;
 
         // Act
-        var result = await operationResult.OnSuccessAsync<string,int>(async s =>
+        var result = await operationResult.OnSuccessAsync<string, int>(async s =>
         {
             resultData = s;
             return 42;

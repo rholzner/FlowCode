@@ -1,4 +1,4 @@
-namespace FlowCode.Tests;
+namespace FlowCode.Tests.UnitTests;
 
 public class OperationResultsTests
 {
