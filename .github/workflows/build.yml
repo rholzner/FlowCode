@@ -29,6 +29,6 @@ jobs:
     - name: Add nuget Package src
       run: dotnet nuget add source --username rholzner --password ${{ secrets.NUGET_PACKAGE_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/rholzner/index.json"
     - name: build package
-      run: dotnet pack --output ./artifacts
+      run: dotnet pack --output ./artifacts --version-suffix "${{github.run_number}}"
     - name: push package
       run: dotnet nuget push ./artifacts/*.nupkg --source github --api-key ${{ secrets.NUGET_PACKAGE_TOKEN }}
