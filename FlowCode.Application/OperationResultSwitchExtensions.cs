@@ -9,7 +9,7 @@ public static class OperationResultSwitchExtensions
     /// <param name="operationResult"></param>
     /// <param name="success"></param>
     /// <param name="error"></param>
-    public static void Switch<T>(this OperationResult<T> operationResult, Action<T> success, Action<Exception> error)
+    public static void Switch<T>(this IOperationResult<T> operationResult, Action<T> success, Action<Exception> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -33,7 +33,7 @@ public static class OperationResultSwitchExtensions
         }
     }
 
-    public static ValueTask SwitchAsync<T>(this OperationResult<T> operationResult, Func<T, ValueTask> success, Func<Exception, ValueTask> error)
+    public static ValueTask SwitchAsync<T>(this IOperationResult<T> operationResult, Func<T, ValueTask> success, Func<Exception, ValueTask> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -56,7 +56,7 @@ public static class OperationResultSwitchExtensions
     /// <param name="operationResult"></param>
     /// <param name="success"></param>
     /// <param name="error"></param>
-    public static void Switch(this OperationResult operationResult, Action success, Action<Exception> error)
+    public static void Switch(this IOperationResult operationResult, Action success, Action<Exception> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -73,7 +73,7 @@ public static class OperationResultSwitchExtensions
         }
     }
 
-    public static ValueTask SwitchAsync(this OperationResult operationResult, Func<ValueTask> success, Func<Exception, ValueTask> error)
+    public static ValueTask SwitchAsync(this IOperationResult operationResult, Func<ValueTask> success, Func<Exception, ValueTask> error)
     {
         if (operationResult.IsSuccess)
         {

@@ -5,7 +5,7 @@ namespace FlowCode;
 /// Represents the result of an operation that returns a value.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class OperationResult<T> : OperationResult
+public class OperationResult<T> : OperationResult, IOperationResult<T>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="OperationResult{T}"/> class.
@@ -151,7 +151,7 @@ public class OperationResult<T> : OperationResult
 /// <summary>
 /// Represents the result of an operation.
 /// </summary>
-public class OperationResult
+public class OperationResult : IOperationResult
 {
 
     /// <summary>

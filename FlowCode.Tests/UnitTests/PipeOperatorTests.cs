@@ -29,4 +29,37 @@ public class PipeOperatorTests
         // Assert
         Assert.Equal(rightResult, result);
     }
+
+
+
+
+
+
+    [Fact]
+    public void Value_Operator_Or_ReturnsLeftResult_WhenLeftIsSuccess()
+    {
+        // Arrange
+        var leftResult = ValueOperationResult.Success(42);
+        var rightResult = ValueOperationResult.Failure<int>(new Exception("Error"));
+
+        // Act
+        var result = leftResult | rightResult;
+
+        // Assert
+        Assert.Equal(leftResult, result);
+    }
+
+    [Fact]
+    public void Value_Operator_Or_ReturnsRightResult_WhenLeftIsFailure()
+    {
+        // Arrange
+        var leftResult = ValueOperationResult.Failure<int>(new Exception("Error"));
+        var rightResult = ValueOperationResult.Success(42);
+
+        // Act
+        var result = leftResult | rightResult;
+
+        // Assert
+        Assert.Equal(rightResult, result);
+    }
 }

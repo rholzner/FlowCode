@@ -11,7 +11,7 @@ public static class OperationResultConvertExtensions
     /// <param name="success"></param>
     /// <param name="error"></param>
     /// <returns></returns>
-    public static Result Convert<Result, T>(this OperationResult<T> operationResult, Func<T, Result> success, Func<Exception, Result> error)
+    public static Result Convert<Result, T>(this IOperationResult<T> operationResult, Func<T, Result> success, Func<Exception, Result> error)
     {
         if (operationResult.IsSuccess)
         {

@@ -1,5 +1,4 @@
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
 
 namespace FlowCode.Benchmarks
 {
@@ -21,53 +20,17 @@ namespace FlowCode.Benchmarks
             return new OperationResult<string>(_exception);
         }
 
+
         [Benchmark]
-        public bool CheckIsSuccessForSuccessResult()
+        public ValueOperationResult<string> CreateSuccessResultValue()
         {
-            var result = new OperationResult<string>(_data);
-            return result.IsSuccess;
+            return new ValueOperationResult<string>(_data);
         }
 
         [Benchmark]
-        public bool CheckIsSuccessForFailureResult()
+        public ValueOperationResult<string> CreateFailureResultValue()
         {
-            var result = new OperationResult<string>(_exception);
-            return result.IsSuccess;
-        }
-
-        [Benchmark]
-        public bool EqualsSuccessResult()
-        {
-            var result1 = new OperationResult<string>(_data);
-            var result2 = new OperationResult<string>(_data);
-            return result1.Equals(result2);
-        }
-
-        [Benchmark]
-        public bool EqualsFailureResult()
-        {
-            var result1 = new OperationResult<string>(_exception);
-            var result2 = new OperationResult<string>(_exception);
-            return result1.Equals(result2);
-        }
-
-        [Benchmark]
-        public int GetHashCodeSuccessResult()
-        {
-            var result = new OperationResult<string>(_data);
-            return result.GetHashCode();
-        }
-
-        [Benchmark]
-        public int GetHashCodeFailureResult()
-        {
-            var result = new OperationResult<string>(_exception);
-            return result.GetHashCode();
-        }
-
-        public static void Main(string[] args)
-        {
-            var summary = BenchmarkRunner.Run<OperationResultBenchmarks>();
+            return new ValueOperationResult<string>(_exception);
         }
     }
 }

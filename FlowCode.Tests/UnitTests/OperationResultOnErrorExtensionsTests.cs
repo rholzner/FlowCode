@@ -72,4 +72,83 @@ public class OperationResultOnErrorExtensionsTests
         // Assert
         Assert.False(actionCalled);
     }
+
+
+
+
+
+
+
+
+
+    [Fact]
+    public void Value_OnError_WithException_CallsAction()
+    {
+        // Arrange
+        var operationResult = new ValueOperationResult<int>(new Exception("Test Exception"));
+        bool actionCalled = false;
+
+        // Act
+        operationResult.OnError(ex =>
+        {
+            actionCalled = true;
+            Assert.Equal("Test Exception", ex.Message);
+        });
+
+        // Assert
+        Assert.True(actionCalled);
+    }
+
+    [Fact]
+    public void Value_FakeRecord_OnError_WithException_CallsAction()
+    {
+        // Arrange
+        var operationResult = new ValueOperationResult<FakeRecord>(new Exception("Test Exception"));
+        bool actionCalled = false;
+
+        // Act
+        operationResult.OnError(ex =>
+        {
+            actionCalled = true;
+            Assert.Equal("Test Exception", ex.Message);
+        });
+
+        // Assert
+        Assert.True(actionCalled);
+    }
+
+
+    [Fact]
+    public void Value_OnError_WithoutException_DoesNotCallAction()
+    {
+        // Arrange
+        var operationResult = new ValueOperationResult<int>(42);
+        bool actionCalled = false;
+
+        // Act
+        operationResult.OnError(ex =>
+        {
+            actionCalled = true;
+        });
+
+        // Assert
+        Assert.False(actionCalled);
+    }
+
+    [Fact]
+    public void Value_FakeRecord_OnError_WithoutException_DoesNotCallAction()
+    {
+        // Arrange
+        var operationResult = new ValueOperationResult<FakeRecord>(new FakeRecord(42, "robin"));
+        bool actionCalled = false;
+
+        // Act
+        operationResult.OnError(ex =>
+        {
+            actionCalled = true;
+        });
+
+        // Assert
+        Assert.False(actionCalled);
+    }
 }

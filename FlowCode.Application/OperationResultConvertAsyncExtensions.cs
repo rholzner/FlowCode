@@ -11,7 +11,7 @@ public static class OperationResultConvertAsyncExtensions
     /// <param name="success"></param>
     /// <param name="error"></param>
     /// <returns></returns>
-    public static ValueTask<Result> ConvertAsync<Result, T>(this OperationResult<T> operationResult, Func<T, Result> success, Func<Exception, Result> error)
+    public static ValueTask<Result> ConvertAsync<Result, T>(this IOperationResult<T> operationResult, Func<T, Result> success, Func<Exception, Result> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -38,7 +38,7 @@ public static class OperationResultConvertAsyncExtensions
     /// <param name="success"></param>
     /// <param name="error"></param>
     /// <returns></returns>
-    public static ValueTask<Result> ConvertAsync<Result>(this OperationResult operationResult, Func<Result> success, Func<Exception, Result> error)
+    public static ValueTask<Result> ConvertAsync<Result>(this IOperationResult operationResult, Func<Result> success, Func<Exception, Result> error)
     {
         if (operationResult.IsSuccess)
         {

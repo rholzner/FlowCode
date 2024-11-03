@@ -1,3 +1,5 @@
+using Newtonsoft.Json.Linq;
+
 namespace FlowCode.Tests.UnitTests;
 
 public class OperationResultTests
@@ -352,6 +354,375 @@ public class OperationResultTests
     {
         // Arrange
         var left = OperationResult.Failure<string>(new InvalidOperationException());
+        Func<string> right = () => "Fallback data";
+
+        // Act
+        var result = left | right;
+
+        // Assert
+        Assert.Equal("Fallback data", result.Data);
+    }
+
+
+
+
+
+
+
+
+
+
+
+    [Fact]
+    public void Value_OperationResult_DefaultConstructor_Success()
+    {
+        // Arrange
+        var operationResult = new ValueOperationResult();
+
+        // Act
+        bool isSuccess = operationResult.IsSuccess;
+
+        // Assert
+        Assert.True(isSuccess);
+        Assert.Null(operationResult.Exception);
+    }
+
+    [Fact]
+    public void Value_OperationResult_ExceptionConstructor_Success()
+    {
+        // Arrange
+        var exception = new Exception("Test exception");
+        var operationResult = new ValueOperationResult(exception);
+
+        // Act
+        bool isSuccess = operationResult.IsSuccess;
+
+        // Assert
+        Assert.False(isSuccess);
+        Assert.Equal(exception, operationResult.Exception);
+    }
+
+    [Fact]
+    public void Value_Int_OperationResultT_DefaultConstructor_Success()
+    {
+        // Arrange
+        var operationResult = new ValueOperationResult<int>();
+
+        // Act
+        bool isSuccess = operationResult.IsSuccess;
+
+        // Assert
+        Assert.False(isSuccess);
+        Assert.Null(operationResult.Exception);
+        Assert.Equal(0, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_Int_OperationResultT_DataConstructor_Success()
+    {
+        // Arrange
+        int data = 42;
+        var operationResult = new ValueOperationResult<int>(data);
+
+        // Act
+        bool isSuccess = operationResult.IsSuccess;
+
+        // Assert
+        Assert.True(isSuccess);
+        Assert.Null(operationResult.Exception);
+        Assert.Equal(data, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_Int_OperationResultT_ExceptionConstructor_False()
+    {
+        // Arrange
+        var exception = new Exception("Test exception");
+        var operationResult = new ValueOperationResult<int>(exception);
+
+        // Act
+        bool isSuccess = operationResult.IsSuccess;
+
+        // Assert
+        Assert.False(isSuccess);
+        Assert.Equal(exception, operationResult.Exception);
+        Assert.Equal(0, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_Int_OperationResultT_ImplicitOperator_Exception_False()
+    {
+        // Arrange
+        var exception = new Exception("Test exception");
+
+        // Act
+        ValueOperationResult<int> operationResult = exception;
+
+        // Assert
+        Assert.False(operationResult.IsSuccess);
+        Assert.Equal(exception, operationResult.Exception);
+        Assert.Equal(0, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_Int_OperationResultT_ImplicitOperator_Data_Success()
+    {
+        // Arrange
+        int data = 42;
+
+        // Act
+        ValueOperationResult<int> operationResult = data;
+
+        // Assert
+        Assert.True(operationResult.IsSuccess);
+        Assert.Null(operationResult.Exception);
+        Assert.Equal(data, operationResult.Data);
+    }
+
+
+    [Fact]
+    public void Value_String_OperationResultT_DefaultConstructor_Success()
+    {
+        // Arrange
+        var operationResult = new ValueOperationResult<string>();
+
+        // Act
+        bool isSuccess = operationResult.IsSuccess;
+
+        // Assert
+        Assert.False(isSuccess);
+        Assert.Null(operationResult.Exception);
+        Assert.Equal(default, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_String_OperationResultT_DataConstructor_Success()
+    {
+        // Arrange
+        string data = "42";
+        var operationResult = new ValueOperationResult<string>(data);
+
+        // Act
+        bool isSuccess = operationResult.IsSuccess;
+
+        // Assert
+        Assert.True(isSuccess);
+        Assert.Null(operationResult.Exception);
+        Assert.Equal(data, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_String_OperationResultT_ExceptionConstructor_False()
+    {
+        // Arrange
+        var exception = new Exception("Test exception");
+        var operationResult = new ValueOperationResult<string>(exception);
+
+        // Act
+        bool isSuccess = operationResult.IsSuccess;
+
+        // Assert
+        Assert.False(isSuccess);
+        Assert.Equal(exception, operationResult.Exception);
+        Assert.Equal(default, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_String_OperationResultT_ImplicitOperator_Exception_False()
+    {
+        // Arrange
+        var exception = new Exception("Test exception");
+
+        // Act
+        ValueOperationResult<string> operationResult = exception;
+
+        // Assert
+        Assert.False(operationResult.IsSuccess);
+        Assert.Equal(exception, operationResult.Exception);
+        Assert.Equal(default, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_String_OperationResultT_ImplicitOperator_Data_Success()
+    {
+        // Arrange
+        string data = "42";
+
+        // Act
+        ValueOperationResult<string> operationResult = data;
+
+        // Assert
+        Assert.True(operationResult.IsSuccess);
+        Assert.Null(operationResult.Exception);
+        Assert.Equal(data, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_FakeRecord_OperationResultT_ImplicitOperator_Data_Success()
+    {
+        // Arrange
+        FakeRecord data = new FakeRecord(42, "robin");
+
+        // Act
+        ValueOperationResult<FakeRecord> operationResult = data;
+
+        // Assert
+        Assert.True(operationResult.IsSuccess);
+        Assert.Null(operationResult.Exception);
+        Assert.Equal(data, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_FakeRecord_OperationResultT_ImplicitOperator_Exception_False()
+    {
+        // Arrange
+        var exception = new Exception("Test exception");
+
+        // Act
+        ValueOperationResult<FakeRecord> operationResult = exception;
+
+        // Assert
+        Assert.False(operationResult.IsSuccess);
+        Assert.Equal(exception, operationResult.Exception);
+        Assert.Equal(default, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_FakeClass_OperationResultT_ImplicitOperator_Data_Success()
+    {
+        // Arrange
+        FakeClass data = new FakeClass { Id = 42, Name = "robin" };
+
+        // Act
+        ValueOperationResult<FakeClass> operationResult = data;
+
+        // Assert
+        Assert.True(operationResult.IsSuccess);
+        Assert.Null(operationResult.Exception);
+        Assert.Equal(data, operationResult.Data);
+    }
+
+    [Fact]
+    public void Value_FakeClass_OperationResultT_ImplicitOperator_Exception_False()
+    {
+        // Arrange
+        var exception = new Exception("Test exception");
+
+        // Act
+        ValueOperationResult<FakeClass> operationResult = exception;
+
+        // Assert
+        Assert.False(operationResult.IsSuccess);
+        Assert.Equal(exception, operationResult.Exception);
+        Assert.Equal(default, operationResult.Data);
+    }
+
+
+    [Fact]
+    public void Value_Equals_NullObject_ReturnsFalse()
+    {
+        // Arrange
+        ValueOperationResult<int> result = ValueOperationResult.Success(42);
+
+        // Act
+        bool isEqual = result.Equals(null);
+
+        // Assert
+        Assert.False(isEqual);
+    }
+
+    [Fact]
+    public void Value_Equals_OperationResult_Success_ReturnsTrue()
+    {
+        // Arrange
+        ValueOperationResult<int> result1 = ValueOperationResult.Success(42);
+        ValueOperationResult<int> result2 = ValueOperationResult.Success(42);
+
+        // Act
+        bool isEqual = result1.Equals(result2);
+
+        // Assert
+        Assert.True(isEqual);
+    }
+
+    [Fact]
+    public void Value_Equals_OperationResult_Failure_ReturnsTrue()
+    {
+        // Arrange
+        Exception ex = new Exception("Something went wrong");
+        ValueOperationResult<int> result1 = ValueOperationResult.Failure<int>(ex);
+        ValueOperationResult<int> result2 = ValueOperationResult.Failure<int>(ex);
+
+        // Act
+        bool isEqual = result1.Equals(result2);
+
+        // Assert
+        Assert.True(isEqual);
+    }
+
+    [Fact]
+    public void Value_Equals_OperationResult_DifferentData_ReturnsFalse()
+    {
+        // Arrange
+        ValueOperationResult<int> result1 = ValueOperationResult.Success(42);
+        ValueOperationResult<int> result2 = ValueOperationResult.Success(24);
+
+        // Act
+        bool isEqual = result1.Equals(result2);
+
+        // Assert
+        Assert.False(isEqual);
+    }
+
+    [Fact]
+    public void Value_Equals_OperationResult_DifferentException_ReturnsFalse()
+    {
+        // Arrange
+        Exception ex1 = new Exception("Error 1");
+        Exception ex2 = new Exception("Error 2");
+        ValueOperationResult<int> result1 = ValueOperationResult.Failure<int>(ex1);
+        ValueOperationResult<int> result2 = ValueOperationResult.Failure<int>(ex2);
+
+        // Act
+        bool isEqual = result1.Equals(result2);
+
+        // Assert
+        Assert.False(isEqual);
+    }
+
+    [Fact]
+    public void Value_GetHashCode_Success()
+    {
+        // Arrange
+        ValueOperationResult<int> result = ValueOperationResult.Success(42);
+        ValueOperationResult<int> result1 = ValueOperationResult.Success(42);
+        // Act
+        int hashCode = result.GetHashCode();
+        int hashCode1 = result1.GetHashCode();
+        // Assert
+        Assert.Equal(hashCode1, hashCode);
+    }
+
+    [Fact]
+    public void Value_OperatorQuestionMark_WhenLeftIsSuccess_ReturnsLeft()
+    {
+        // Arrange
+        var data = "Test data";
+        var left = ValueOperationResult.Success(data);
+        Func<string> right = () => throw new InvalidOperationException();
+
+        // Act
+        var result = left | right;
+
+        // Assert
+        Assert.Equal(left, result);
+    }
+
+    [Fact]
+    public void Value_OperatorQuestionMark_WhenLeftIsFailure_ReturnsRight()
+    {
+        // Arrange
+        var left = ValueOperationResult.Failure<string>(new InvalidOperationException());
         Func<string> right = () => "Fallback data";
 
         // Act

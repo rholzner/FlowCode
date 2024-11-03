@@ -6,12 +6,12 @@ namespace FlowCode.Application.NetCore;
 public static class OperationResultConvertToActionOfTExtensions
 {
     /// <summary>
-    /// Converts an <see cref="OperationResult"/> to a <see cref="ActionResult"/>.
+    /// Converts an <see cref="IOperationResult"/> to a <see cref="ActionResult"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="operationResult"></param>
     /// <returns></returns>
-    public static ActionResult<T> ToAction<T>(this OperationResult<T> operationResult)
+    public static ActionResult<T> ToAction<T>(this IOperationResult<T> operationResult)
     {
         if (operationResult.IsSuccess)
         {
@@ -24,13 +24,13 @@ public static class OperationResultConvertToActionOfTExtensions
         return new BadRequestObjectResult(operationResult.Exception.Message);
     }
     /// <summary>
-    /// Converts an <see cref="OperationResult"/> to a <see cref="ActionResult"/>.
+    /// Converts an <see cref="IOperationResult"/> to a <see cref="ActionResult"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="operationResult"></param>
     /// <param name="showErrorMessage"></param>
     /// <returns></returns>
-    public static ActionResult<T> ToAction<T>(this OperationResult<T> operationResult, bool showErrorMessage)
+    public static ActionResult<T> ToAction<T>(this IOperationResult<T> operationResult, bool showErrorMessage)
     {
         if (operationResult.IsSuccess)
         {
@@ -47,13 +47,13 @@ public static class OperationResultConvertToActionOfTExtensions
         return new BadRequestObjectResult("An error occurred");
     }
     /// <summary>
-    /// Converts an <see cref="OperationResult"/> to a <see cref="ActionResult"/>.
+    /// Converts an <see cref="IOperationResult"/> to a <see cref="ActionResult"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="operationResult"></param>
     /// <param name="success"></param>
     /// <returns></returns>
-    public static ActionResult<T> ToAction<T>(this OperationResult<T> operationResult, Func<T, ActionResult<T>> success)
+    public static ActionResult<T> ToAction<T>(this IOperationResult<T> operationResult, Func<T, ActionResult<T>> success)
     {
         if (operationResult.IsSuccess)
         {
@@ -67,7 +67,7 @@ public static class OperationResultConvertToActionOfTExtensions
         return new BadRequestObjectResult(operationResult.Exception.Message);
     }
 
-    public static ActionResult<T> ToAction<T>(this OperationResult<T> operationResult, Func<T, ActionResult<T>> success, bool showErrorMessage)
+    public static ActionResult<T> ToAction<T>(this IOperationResult<T> operationResult, Func<T, ActionResult<T>> success, bool showErrorMessage)
     {
         if (operationResult.IsSuccess)
         {
@@ -87,13 +87,13 @@ public static class OperationResultConvertToActionOfTExtensions
     }
 
     /// <summary>
-    /// Converts an <see cref="OperationResult"/> to a <see cref="ActionResult"/> using the provided functions.
+    /// Converts an <see cref="IOperationResult"/> to a <see cref="ActionResult"/> using the provided functions.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="operationResult"></param>
     /// <param name="error"></param>
     /// <returns></returns>
-    public static ActionResult<T> ToAction<T>(this OperationResult<T> operationResult, Func<Exception, ActionResult> error)
+    public static ActionResult<T> ToAction<T>(this IOperationResult<T> operationResult, Func<Exception, ActionResult> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -106,13 +106,13 @@ public static class OperationResultConvertToActionOfTExtensions
         return error(operationResult.Exception);
     }
     /// <summary>
-    /// Converts an <see cref="OperationResult{T}"/> to a <see cref="Result"/> using the provided functions.
+    /// Converts an <see cref="IOperationResult{T}"/> to a <see cref="Result"/> using the provided functions.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="operationResult"></param>
     /// <param name="error"></param>
     /// <returns></returns>
-    public static ActionResult<T> ToAction<T>(this OperationResult<T> operationResult, Func<Exception, ActionResult<T>> error)
+    public static ActionResult<T> ToAction<T>(this IOperationResult<T> operationResult, Func<Exception, ActionResult<T>> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -127,7 +127,7 @@ public static class OperationResultConvertToActionOfTExtensions
 
 
     /// <summary>
-    /// Converts an <see cref="OperationResult{T}"/> to a <see cref="Result"/> using the provided functions.
+    /// Converts an <see cref="IOperationResult{T}"/> to a <see cref="Result"/> using the provided functions.
     /// </summary>
     /// <typeparam name="Result"></typeparam>
     /// <typeparam name="T"></typeparam>
@@ -135,7 +135,7 @@ public static class OperationResultConvertToActionOfTExtensions
     /// <param name="success"></param>
     /// <param name="error"></param>
     /// <returns></returns>
-    public static ActionResult ToAction<T>(this OperationResult<T> operationResult, Func<T, ActionResult> success, Func<Exception, ActionResult> error)
+    public static ActionResult ToAction<T>(this IOperationResult<T> operationResult, Func<T, ActionResult> success, Func<Exception, ActionResult> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -155,14 +155,14 @@ public static class OperationResultConvertToActionOfTExtensions
         return error(operationResult.Exception);
     }
     /// <summary>
-    /// Converts an <see cref="OperationResult{T}"/> to a <see cref="Result"/> using the provided functions.
+    /// Converts an <see cref="IOperationResult{T}"/> to a <see cref="Result"/> using the provided functions.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="operationResult"></param>
     /// <param name="success"></param>
     /// <param name="error"></param>
     /// <returns></returns>
-    public static ActionResult<T> ToAction<T>(this OperationResult<T> operationResult, Func<T, ActionResult<T>> success, Func<Exception, ActionResult<T>> error)
+    public static ActionResult<T> ToAction<T>(this IOperationResult<T> operationResult, Func<T, ActionResult<T>> success, Func<Exception, ActionResult<T>> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -181,14 +181,14 @@ public static class OperationResultConvertToActionOfTExtensions
 
 
     /// <summary>
-    /// Converts an <see cref="OperationResult{T}"/> to a <see cref="IActionResult"/> using the provided functions.
+    /// Converts an <see cref="IOperationResult{T}"/> to a <see cref="IActionResult"/> using the provided functions.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="operationResult"></param>
     /// <param name="success"></param>
     /// <param name="error"></param>
     /// <returns></returns>
-    public static IActionResult ToAction<T>(this OperationResult<T> operationResult, Func<T, IActionResult> success, Func<Exception, IActionResult> error)
+    public static IActionResult ToAction<T>(this IOperationResult<T> operationResult, Func<T, IActionResult> success, Func<Exception, IActionResult> error)
     {
         if (operationResult.IsSuccess)
         {

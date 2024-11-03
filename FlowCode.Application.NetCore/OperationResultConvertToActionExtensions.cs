@@ -10,7 +10,7 @@ public static class OperationResultConvertToActionExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="operationResult"></param>
     /// <returns></returns>
-    public static ActionResult ToAction(this OperationResult operationResult)
+    public static ActionResult ToAction(this IOperationResult operationResult)
     {
         if (operationResult.IsSuccess)
         {
@@ -29,7 +29,7 @@ public static class OperationResultConvertToActionExtensions
     /// <param name="operationResult"></param>
     /// <param name="success"></param>
     /// <returns></returns>
-    public static ActionResult ToAction(this OperationResult operationResult, Func<ActionResult> success)
+    public static ActionResult ToAction(this IOperationResult operationResult, Func<ActionResult> success)
     {
         if (operationResult.IsSuccess)
         {
@@ -50,7 +50,7 @@ public static class OperationResultConvertToActionExtensions
     /// <param name="operationResult"></param>
     /// <param name="error"></param>
     /// <returns></returns>
-    public static ActionResult ToAction(this OperationResult operationResult, Func<Exception, ActionResult> error)
+    public static ActionResult ToAction(this IOperationResult operationResult, Func<Exception, ActionResult> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -72,7 +72,7 @@ public static class OperationResultConvertToActionExtensions
     /// <param name="success"></param>
     /// <param name="error"></param>
     /// <returns></returns>
-    public static ActionResult ToAction(this OperationResult operationResult, Func<ActionResult> success, Func<Exception, ActionResult> error)
+    public static ActionResult ToAction(this IOperationResult operationResult, Func<ActionResult> success, Func<Exception, ActionResult> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -95,7 +95,7 @@ public static class OperationResultConvertToActionExtensions
     /// <param name="success"></param>
     /// <param name="error"></param>
     /// <returns></returns>
-    public static IActionResult ToAction(this OperationResult operationResult, Func<IActionResult> success, Func<Exception, IActionResult> error)
+    public static IActionResult ToAction(this IOperationResult operationResult, Func<IActionResult> success, Func<Exception, IActionResult> error)
     {
         if (operationResult.IsSuccess)
         {
