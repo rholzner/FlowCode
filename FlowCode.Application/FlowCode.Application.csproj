@@ -4,6 +4,9 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<RootNamespace>FlowCode</RootNamespace>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>FlowCode.Application</Title>
+		<RepositoryUrl>https://github.com/rholzner/FlowCode</RepositoryUrl>
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\FlowCode.Domain\FlowCode.Domain.csproj" />
