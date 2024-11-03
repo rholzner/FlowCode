@@ -7,5 +7,6 @@
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Title>FlowCode.Domain</Title>
 		<RepositoryUrl>https://github.com/rholzner/FlowCode</RepositoryUrl>
+		<Version>1.0.1</Version>
 	</PropertyGroup>
 </Project>
