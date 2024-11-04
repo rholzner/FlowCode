@@ -75,6 +75,10 @@ public struct ValueOperationResult : IOperationResult
         return HashCode.Combine(IsSuccess, Exception);
     }
 
+    public override string ToString()
+    {
+        return IsSuccess ? "Success" : $"Failure: {Exception?.Message}";
+    }
 }
 
 public struct ValueOperationResult<T> : IOperationResult<T>
@@ -90,7 +94,25 @@ public struct ValueOperationResult<T> : IOperationResult<T>
         Data = default!;
         Exception = exception;
     }
-    public T Data { get; }
+
+    private T? _data;
+
+    public T Data
+    {
+        get
+        {
+            if (_dataHasBeenSet && _data is not null)
+            {
+                return _data!;
+            }
+            return default!;
+        }
+        private set
+        {
+            _data = value;
+        }
+    }
+
     public Exception? Exception { get; }
     /// <summary>
     /// Gets a value indicating whether the operation was successful.
@@ -183,6 +205,11 @@ public struct ValueOperationResult<T> : IOperationResult<T>
     public override int GetHashCode()
     {
         return HashCode.Combine(IsSuccess, Exception, Data);
+    }
+
+    public override string ToString()
+    {
+        return IsSuccess ? $"Success: {Data}" : $"Failure: {Exception?.Message}";
     }
 
 
