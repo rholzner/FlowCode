@@ -2,7 +2,7 @@
 
 public static class OperationResultUnPackAsyncExtensions
 {
-    public static ValueTask<Result> UnPackAsync<Result>(this OperationResult operationResult,Func<ValueTask<Result>> Success, Func<Exception, ValueTask<Result>> error)
+    public static ValueTask<Result> UnPackAsync<Result>(this IOperationResult operationResult,Func<ValueTask<Result>> Success, Func<Exception, ValueTask<Result>> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -17,7 +17,7 @@ public static class OperationResultUnPackAsyncExtensions
         return error(operationResult.Exception);
     }
 
-    public static ValueTask<Result> UnPackAsync<Result, T>(this OperationResult<T> operationResult, Func<T, ValueTask<Result>> Success, Func<Exception, ValueTask<Result>> error)
+    public static ValueTask<Result> UnPackAsync<Result, T>(this IOperationResult<T> operationResult, Func<T, ValueTask<Result>> Success, Func<Exception, ValueTask<Result>> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -34,7 +34,7 @@ public static class OperationResultUnPackAsyncExtensions
         return error(operationResult.Exception);
     }
 
-    public static Result UnPack<Result>(this OperationResult operationResult, Func<Result> Success, Func<Exception, Result> error)
+    public static Result UnPack<Result>(this IOperationResult operationResult, Func<Result> Success, Func<Exception, Result> error)
     {
         if (operationResult.IsSuccess)
         {
@@ -47,7 +47,7 @@ public static class OperationResultUnPackAsyncExtensions
         return error(operationResult.Exception);
     }
 
-    public static Result UnPack<Result, T>(this OperationResult<T> operationResult, Func<T, Result> Success, Func<Exception, Result> error)
+    public static Result UnPack<Result, T>(this IOperationResult<T> operationResult, Func<T, Result> Success, Func<Exception, Result> error)
     {
         if (operationResult.IsSuccess)
         {
