@@ -54,4 +54,3 @@ public static class OperationResultConvertAsyncExtensions
         return ValueTask.FromResult(error(operationResult.Exception));
     }
 }
-
